@@ -4,7 +4,7 @@ var SwagDancer = function (top, left) {
 
 SwagDancer.prototype = Object.create(makeDancer.prototype);
 SwagDancer.prototype.constructor = SwagDancer;
-
+var rand = Math.random() * 3;
 SwagDancer.prototype.step = function() {
   // call the old version of step at the beginning of any call to this new version of step
   this.oldStep = makeDancer.prototype.step.bind(this);
@@ -20,8 +20,8 @@ SwagDancer.prototype.step = function() {
   if (this.left < 0 || this.left > screenWidth) {
     this.xSpeed *= -1;
   }
-  this.left += Math.random() * 5 * this.xSpeed;
-  this.top += Math.random() * 5 * this.ySpeed;
+  this.left += rand * this.xSpeed;
+  this.top += rand * this.ySpeed;
   var styleSettings = {
     top: this.top,
     left: this.left

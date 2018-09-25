@@ -1,6 +1,27 @@
 $(document).ready(function() {
+  document.querySelectorAll('.earth')[0].style.display = 'none';
   window.dancers = [];
-
+  var randColor = () => Math.floor(Math.random()*255);
+  var color = () => `rgb(${randColor()}, ${randColor()}, ${randColor()})`;
+  setInterval(() => {
+    $('body')[0].style.setProperty('background-color', color());
+  }, 100000);
+  $('.planet').on('click', function(event) {
+    document.querySelectorAll('.earth')[0].style.display = '';
+  });
+  $('.lineUp').on('click', function(event) {
+    var currentDancers = document.querySelectorAll('.dancer');
+    for (var element of window.dancers) {
+      element.top = Math.floor(Math.random() * ($(window).height() - 0 + 1));
+      element.left = 50;
+      element.stepStorage = element.step;
+      element.step = () => {};
+      var func = function() {
+        this.step = this.stepStorage;
+        this.step();}
+      setTimeout(func.bind(element), 1000);
+    }
+  });
   $('.addDancerButton').on('click', function(event) {
     /* This function sets up the click handlers for the create-dancer
      * buttons on dancefloor.html. You should only need to make one small change to it.
@@ -27,15 +48,51 @@ $(document).ready(function() {
       $("body").width() * Math.random(),
       Math.random() * 1000
     );
-    var randColor = () => Math.floor(Math.random()*255);
-    var color = () => `rgb(${randColor()}, ${randColor()}, ${randColor()})`;
+    var myFunction = function(){
+      dancer.stepStorage = dancer.step;
+      dancer.step = () => {};
+    };
+    var explode = function(){
+      for(var i = 0; i < 4; i++){
+        var newDancers = new dancerMakerFunction(dancer.top+i*10,dancer.left+i*10,Math.random()*1000);
+        $(dancer.$node).remove();
+        if(i === 0){
+          newDancers.xSpeed = Math.random() * 3;
+          newDancers.ySpeed = Math.random() * 3;
+        }
+        if(i === 1){
+          newDancers.xSpeed = Math.random() * 3;
+          newDancers.ySpeed = -Math.random() * 3;
+        }
+        if(i === 2){
+          newDancers.xSpeed = -Math.random() * 3;
+          newDancers.ySpeed = -Math.random() * 3;
+        }
+        if(i === 3){
+          newDancers.xSpeed = -Math.random() * 3;
+          newDancers.ySpeed = Math.random() * 3;
+        }
+        newDancers.$node[0].style.setProperty('border-color', color());
+        newDancers.$node[0].addEventListener("mouseover", myFunction);
+        newDancers.$node[0].addEventListener("mouseout", someOtherFunction);
+        newDancers.$node[0].addEventListener("click", explode);
+        $('body').append(newDancers.$node);
+        console.log(newDancers)
+        window.dancers.push(newDancers);
+      }
+    };
+    var someOtherFunction = function(){
+      dancer.step = dancer.stepStorage;
+      dancer.step();
+    };
+    dancer.$node[0].addEventListener("mouseover", myFunction);
+    dancer.$node[0].addEventListener("mouseout", someOtherFunction);
+    dancer.$node[0].addEventListener("click", explode);
     dancer.$node[0].style.setProperty('border-color', color());
     var size = () => Math.floor(Math.random() * (30 - 20 + 1)) + 20;
     dancer.$node[0].style.setProperty('border-width', (size() + 'px'));
     dancer.$node[0].style.setProperty('border-radius', (size() + 'px'));
-    setInterval(() => {
-      $('body')[0].style.setProperty('background-color', color());
-    }, 1000);
     $('body').append(dancer.$node);
+    window.dancers.push(dancer);
   });
 });
