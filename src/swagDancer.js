@@ -14,6 +14,8 @@ SwagDancer.prototype.step = function() {
   // other effects you can use on a jQuery-wrapped html tag.
   var screenHeight = $(window).height();
   var screenWidth = $(window).width();
+  let totalSpeed = Math.sqrt((this.xSpeed * this.xSpeed) + (this.ySpeed * this.ySpeed));
+  console.log(totalSpeed);
   if (this.top < 0 || this.top > screenHeight) {
     this.ySpeed *= -1;
   }
@@ -26,9 +28,37 @@ SwagDancer.prototype.step = function() {
     let hDistance = this.left - centerX;
     let vDistance = this.top - centerY;
     let diagonal = Math.sqrt((vDistance * vDistance) + (hDistance * hDistance));
-    this.xSpeed = vDistance / diagonal;
-    this.ySpeed = -hDistance / diagonal;
+    this.xSpeed =  totalSpeed * (vDistance / diagonal);
+    this.ySpeed = totalSpeed * (hDistance / diagonal);
+    //XXXXXXXX
+    if(this.top === centerY && this.xSpeed < 0 && this.ySpeed < 0){
+      this.xSpeed *= -1;
+    }
+    if(this.top === centerY && this.xSpeed > 0 && this.ySpeed < 0){
+      this.xSpeed *= -1;
+    }
+    if(this.top === centerY && this.xSpeed > 0 && this.ySpeed > 0){
+      this.xSpeed *= -1;
+    }
+    if(this.top === centerY && this.xSpeed < 0 && this.ySpeed > 0){
+      this.xSpeed *= -1;
+    }
+  
+    //YYYYYYYY
+    if(this.left === centerX && this.xSpeed > 0 && this.ySpeed > 0){
+      this.ySpeed *= -1;
+    }
+    if(this.left === centerX && this.xSpeed > 0 && this.ySpeed < 0){
+      this.ySpeed *= -1;
+    }
+    if(this.left === centerX && this.xSpeed < 0 && this.ySpeed > 0){
+      this.ySpeed *= -1;
+    }
+    if(this.left === centerX && this.xSpeed < 0 && this.ySpeed < 0){
+      this.ySpeed *= -1;
+    }
   }
+  //console.log(this.xSpeed, this.ySpeed);
   this.left += rand * this.xSpeed;
   this.top += rand * this.ySpeed;
   var styleSettings = {
