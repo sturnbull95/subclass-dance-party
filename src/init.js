@@ -5,12 +5,23 @@ $(document).ready(function() {
   var color = () => `rgb(${randColor()}, ${randColor()}, ${randColor()})`;
   setInterval(() => {
     $('body')[0].style.setProperty('background-color', color());
-  }, 100000);
+  }, 1000);
   $('.planet').on('click', function(event) {
-    document.querySelectorAll('.earth')[0].style.display = '';
+    if(document.querySelectorAll('.earth')[0].style.display === ''){
+      document.querySelectorAll('.earth')[0].style.display = 'none'
+    }else{
+      document.querySelectorAll('.earth')[0].style.display = '';
+    }
+    // for (var element of window.dancers) {
+    //   setInterval(function(){
+    //     let hDistance = element.left - centerX;
+    //     let vDistance = element.top - centerY;
+    //     let diagonal = Math.sqrt((vDistance * vDistance) + (hDistance * hDistance));
+    //     element.xSpeed = vDistance / diagonal;
+    //     element.ySpeed = -hDistance / diagonal}.bind(this), 10);
+    // }
   });
   $('.lineUp').on('click', function(event) {
-    var currentDancers = document.querySelectorAll('.dancer');
     for (var element of window.dancers) {
       element.top = Math.floor(Math.random() * ($(window).height() - 0 + 1));
       element.left = 50;
@@ -54,7 +65,7 @@ $(document).ready(function() {
     };
     var explode = function(){
       for(var i = 0; i < 4; i++){
-        var newDancers = new dancerMakerFunction(dancer.top+i*10,dancer.left+i*10,Math.random()*1000);
+        var newDancers = new dancerMakerFunction(this.top+i*10,this.left+i*10,Math.random()*1000);
         $(dancer.$node).remove();
         if(i === 0){
           newDancers.xSpeed = Math.random() * 3;
@@ -73,11 +84,11 @@ $(document).ready(function() {
           newDancers.ySpeed = Math.random() * 3;
         }
         newDancers.$node[0].style.setProperty('border-color', color());
-        newDancers.$node[0].addEventListener("mouseover", myFunction);
-        newDancers.$node[0].addEventListener("mouseout", someOtherFunction);
-        newDancers.$node[0].addEventListener("click", explode);
+        // newDancers.$node[0].addEventListener("mouseover", myFunction);
+        // newDancers.$node[0].addEventListener("mouseout", someOtherFunction);
+        newDancers.$node[0].addEventListener("click", explode.bind(newDancers));
         $('body').append(newDancers.$node);
-        console.log(newDancers)
+        //newDancers.$node[0].addEventListener("click", function(){console.log('CLICK')});
         window.dancers.push(newDancers);
       }
     };
@@ -87,7 +98,7 @@ $(document).ready(function() {
     };
     dancer.$node[0].addEventListener("mouseover", myFunction);
     dancer.$node[0].addEventListener("mouseout", someOtherFunction);
-    dancer.$node[0].addEventListener("click", explode);
+    dancer.$node[0].addEventListener("click", explode.bind(dancer));
     dancer.$node[0].style.setProperty('border-color', color());
     var size = () => Math.floor(Math.random() * (30 - 20 + 1)) + 20;
     dancer.$node[0].style.setProperty('border-width', (size() + 'px'));

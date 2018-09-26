@@ -1,3 +1,4 @@
+
 body, html{
   height:100%;
 }
@@ -7,18 +8,33 @@ body{
   font-size: 18px;
 }
 body, a:link, a:visited, a:active{
-  color: lightblue;
+  color: #808080;
+  text-decoration: none;
+  text-transform: uppercase;
+  font-family: Arial, Helvetica, sans-serif;
+  -webkit-font-smoothing: antialiased;
+
 }
-.title, .addDancerButton{
+.addDancerButton{
   padding:5px 12px;
   float:right;
 }
+.planet{
+  padding:5px 12px;
+  float:left;
+}
+.lineUp{
+  padding:5px 12px;
+  float:left;
+}
 .topbar{
   height:32px;
-  background-color: #555;
+  background-color: #fff;
 }
 .title{
-  background-color: #777;
+  padding:5px 12px;
+  padding-left: 15%;
+  background-color: #fff;
 }
 .dancer{
   border:10px solid #b0e0E6;
@@ -27,12 +43,12 @@ body, a:link, a:visited, a:active{
 }
 .earth {
   position: fixed; /* or absolute */
-  top: 40%;
-  left: 40%;
+  top: 42.5%;
+  left: 42.5%;
   background: #232323;
   border-radius: 100%;
   height: 200px;
   width: 200px;
   margin: 0 auto;
-  background: radial-gradient(circle at 100px 100px, #5cabff, #000);
+  background: radial-gradient(circle at 100px 100px, gold, #000);
 }
